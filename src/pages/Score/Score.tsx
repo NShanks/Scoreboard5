@@ -1,8 +1,6 @@
 import { useLocation } from "react-router-dom";
 import Teams from "pages/Score/Teams";
-import useDisplayTournament from "../../hooks/useDisplayTournament";
-
-interface ScoreProps {}
+import useDisplayTournament from "hooks/useDisplayTournament";
 
 const Score = () => {
   const location = useLocation();

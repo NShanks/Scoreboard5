@@ -1,4 +1,4 @@
-// import "./App.css";
+import { useEffect, useState } from "react";
 import { finalTourney } from "../components/RenameModal/RenameModal";
 
 const sumArray = (array: string | any[]) => {
@@ -9,50 +9,41 @@ const sumArray = (array: string | any[]) => {
   return sum;
 };
 
-const useDisplayTournament = () => {
-  const scoreButton = () => {
-    let wzPlayerName = String("Shanks");
-    let matchString = String(752505576671720088);
-    // console.log(String(wzIdInput.value))
-    let wzPlayerElims = 0;
-    let wzPlayerPlace = 0;
-    (() => {
-      // console.log("working")
-      fetch(
-        `https://www.callofduty.com/api/papi-client/crm/cod/v2/title/mw/platform/battle/fullMatch/wz/${matchString}/it`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          for (let n = 0; n < data["data"]["allPlayers"].length; n++) {
-            if (
-              data["data"]["allPlayers"][n]["player"]["username"] ==
-              wzPlayerName
-            ) {
-              // console.log(`found player number ${n}`)
-              // console.log((data)['data']['allPlayers'][n]['player']['username']) // Player in game name
-              wzPlayerElims =
-                data["data"]["allPlayers"][n]["playerStats"]["kills"]; // Player kills
-              wzPlayerPlace =
-                data["data"]["allPlayers"][n]["playerStats"]["teamPlacement"]; // Place
-              // console.log(`before wzPlayerElims is returned ${wzPlayerElims}`)
-              //   elims.value = String(wzPlayerElims);
-              //   place.value = String(wzPlayerPlace);
-              // console.log(`before wzPlayerElims is returned ${wzPlayerPlace}`)
-              // return [wzPlayerElims, wzPlayerPlace]
-              // console.log("first check")
-              continue;
-            }
-            // continue
-            // console.log("second check")
-          }
-          console.log("third check");
-          return data;
-        })
-        .catch((error) => console.log("error", error));
-    })();
-  };
+const getTournamentData = async () => {
+  let matchString = String("752505576671720088");
+  try {
+    const response = await fetch(
+      `https://www.callofduty.com/api/papi-client/crm/cod/v2/title/mw/platform/battle/fullMatch/wz/${matchString}/it`
+    );
+    if (!response) {
+      throw new Error("Error fetching data");
+    }
 
-  return scoreButton;
+    const data = await response.json();
+    if (!data) {
+      throw new Error("No data returned");
+    }
+
+    return data.data.allPlayers;
+    // Do something with the data
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const useDisplayTournament = () => {
+  const [data, setData] = useState();
+  useEffect(() => {
+    getTournamentData()
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getTournamentData]);
+  return data;
 };
 
 const displayTournament = () => {
