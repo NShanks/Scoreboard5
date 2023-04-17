@@ -32,7 +32,8 @@ const getTournamentData = async () => {
 };
 
 const useDisplayTournament = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<[]>();
+
   useEffect(() => {
     getTournamentData()
       .then((data) => {
@@ -43,7 +44,39 @@ const useDisplayTournament = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getTournamentData]);
-  return data;
+
+  if (!data) return;
+
+  const gameData = data?.reduce((acc: any, game: any) => {
+    const team = game.player.team;
+
+    if (!acc[team]) {
+      acc[team] = {
+        team: {
+          name: team,
+          players: [
+            {
+              name: game.player.username,
+              kills: game.playerStats.kills,
+            },
+          ],
+        },
+      };
+    } else {
+      const player = {
+        name: game.player.username,
+        kills: game.playerStats.kills,
+      };
+
+      acc[team].team.players.push(player);
+    }
+
+    return acc;
+  }, {});
+
+  const gameDataArray = Object.values(gameData);
+
+  return gameDataArray;
 };
 
 const displayTournament = () => {

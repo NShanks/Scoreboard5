@@ -7,7 +7,7 @@ const Score = () => {
   const sheetData = location.state.sheetData;
   const data = useDisplayTournament();
 
-  console.log("data", data);
+  console.log("end", data);
 
   return (
     <div>
@@ -35,7 +35,12 @@ const Score = () => {
           <input placeholder="Enter Multiplier" />
         </form>
       </div>
-      <Teams numberOfTeams={sheetData.teams} numberOfGames={sheetData.games} />
+      <Teams
+        numberOfTeams={sheetData.teams}
+        numberOfGames={sheetData.games}
+        numberOfPlayers={sheetData.playersPerTeam}
+        gameData={data}
+      />
     </div>
   );
 };
