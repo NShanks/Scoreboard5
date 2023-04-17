@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Modal from "components/Modal";
+import Modal from "Components/Modal";
 
 export let createdTourney = {};
 export let finalTourney = new Map<any, any>();

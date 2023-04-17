@@ -22,8 +22,13 @@ const Team = ({
 }: TeamProps) => {
   return (
     <div className="flex flex-col pl-5 border-2 mb-2 p-2 mx-8 border-gray-500 rounded">
-      <div className="mb-4 flex justify-center text-3xl border-b-2 pb-2">
-        Team {teamNumber}
+      <div className="border-b-2 pb-2 items-center flex justify-between">
+        <div className="text-3xl mx-auto translate-x-1/2">
+          Team {teamNumber}
+        </div>
+        <div className="">
+          Total Score
+        </div>
       </div>
       <Games
         numberOfGames={numberOfGames}

@@ -1,4 +1,5 @@
 import Players from "pages/Score/Players";
+import { TeamSheet } from "pages/Score/Players/Players"
 
 interface GameProps {
   numberOfPlayers: number;
@@ -12,11 +13,7 @@ interface GamesProps {
 
 const Game = ({ numberOfPlayers }: GameProps) => (
   <div>
-    <div className="flex flex-row items-center mb-4 gap-4">
-      <div>Placement</div>
-      <div>Score</div>
-    </div>
-    <Players numberOfPlayers={numberOfPlayers} />
+    <TeamSheet numberOfPlayers={numberOfPlayers} />
   </div>
 );
 
@@ -26,7 +23,10 @@ const Games = ({ numberOfGames, numberOfPlayers }: GamesProps) => {
   ));
 
   return (
-    <div className="flex flex-row gap-8 justify-center">{gameElements}</div>
+    <div>
+      <Players numberOfPlayers={numberOfPlayers} />
+      <div className="flex gap-8 justify-center">{gameElements}</div>
+    </div>
   );
 };
 

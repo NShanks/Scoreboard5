@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { finalTourney } from "../components/RenameModal/RenameModal";
+import { finalTourney } from "Components/RenameModal/RenameModal";
 
 const sumArray = (array: string | any[]) => {
   let sum = 0;

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import RenameModal from "components/RenameModal";
-import LoadModal from "components/LoadModal";
+import RenameModal from "Components/RenameModal";
+import LoadModal from "Components/LoadModal";
 
 export default function Home() {
   const [isLoadModalOpen, setIsLoadModalOpen] = useState<boolean>(false);
