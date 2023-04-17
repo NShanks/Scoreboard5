@@ -1,15 +1,13 @@
 import { useLocation } from "react-router-dom";
 import Teams from "pages/Score/Teams";
-import useDisplayTournament from "../../hooks/useDisplayTournament";
-
-interface ScoreProps {}
+import useDisplayTournament from "hooks/useDisplayTournament";
 
 const Score = () => {
   const location = useLocation();
   const sheetData = location.state.sheetData;
   const data = useDisplayTournament();
 
-  console.log("data", data);
+  console.log("end", data);
 
   return (
     <div>
@@ -37,7 +35,12 @@ const Score = () => {
           <input placeholder="Enter Multiplier" />
         </form>
       </div>
-      <Teams numberOfTeams={sheetData.teams} numberOfGames={sheetData.games} />
+      <Teams
+        numberOfTeams={sheetData.teams}
+        numberOfGames={sheetData.games}
+        numberOfPlayers={sheetData.playersPerTeam}
+        gameData={data}
+      />
     </div>
   );
 };
