@@ -13,11 +13,13 @@ interface ElimsProps {
 
 interface TeamSheetProps {
   numberOfPlayers: number;
+  gameData?: any
 }
 
-export const TeamSheet = ({ numberOfPlayers }: TeamSheetProps) => {
+export const TeamSheet = ({ numberOfPlayers, gameData }: TeamSheetProps) => {
+  console.log('gameData', gameData)
   const elimElements = Array.from({ length: numberOfPlayers }, (_, i) => (
-    <Elims key={i} elims={i} />
+    <Elims key={i} elims={0} />
   ));
   return (
   <div className="flex flex-row">

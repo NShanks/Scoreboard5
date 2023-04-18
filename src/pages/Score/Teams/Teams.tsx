@@ -51,7 +51,7 @@ const Teams = ({
       teamNumber={i + 1}
       numberOfGames={numberOfGames}
       numberOfPlayers={numberOfPlayers}
-      gameData={gameData}
+      gameData={gameData ? gameData[i] : ''}
     />
   ));
 

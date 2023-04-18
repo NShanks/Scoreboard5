@@ -3,6 +3,7 @@ import { TeamSheet } from "pages/Score/Players/Players"
 
 interface GameProps {
   numberOfPlayers: number;
+  gameData?: any
 }
 
 interface GamesProps {
@@ -11,15 +12,15 @@ interface GamesProps {
   gameData?: any;
 }
 
-const Game = ({ numberOfPlayers }: GameProps) => (
+const Game = ({ numberOfPlayers, gameData }: GameProps) => (
   <div>
-    <TeamSheet numberOfPlayers={numberOfPlayers} />
+    <TeamSheet numberOfPlayers={numberOfPlayers} gameData={gameData}/>
   </div>
 );
 
-const Games = ({ numberOfGames, numberOfPlayers }: GamesProps) => {
+const Games = ({ numberOfGames, numberOfPlayers, gameData }: GamesProps) => {
   const gameElements = Array.from({ length: numberOfGames }, (_, i) => (
-    <Game key={i} numberOfPlayers={numberOfPlayers} />
+    <Game key={i} numberOfPlayers={numberOfPlayers} gameData={gameData}/>
   ));
 
   return (
