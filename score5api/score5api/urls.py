@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from gameInfo.views import create_game
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/games/', create_game, name='create_game'),
 ]

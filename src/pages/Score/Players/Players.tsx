@@ -17,7 +17,7 @@ interface TeamSheetProps {
 }
 
 export const TeamSheet = ({ numberOfPlayers, gameData }: TeamSheetProps) => {
-  console.log('gameData', gameData)
+  // console.log('gameData', gameData)
   const elimElements = Array.from({ length: numberOfPlayers }, (_, i) => (
     <Elims key={i} elims={0} />
   ));
