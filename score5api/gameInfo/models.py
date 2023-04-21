@@ -1,7 +1,7 @@
 from django.db import models
 
 class Game(models.Model):
-    warzone_match_string = models.CharField(max_length=50)
+    warzone_match_string = models.CharField(max_length=50, unique=True)
     match_date = models.DateTimeField("date published")
 
 class Stats(models.Model):
