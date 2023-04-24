@@ -5,7 +5,7 @@ import useDisplayTournament from "hooks/useDisplayTournament";
 const Score = () => {
   const location = useLocation();
   const sheetData = location.state.sheetData;
-  const data = useDisplayTournament();
+  const data = useDisplayTournament('752505576671720088');
 
   // console.log("end", data);
 

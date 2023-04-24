@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from gameInfo.views import create_game
+from gameInfo.views import create_game, retrieve_game
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/games/', create_game, name='create_game'),
+    path('api/create/', create_game, name='create_game'),
+    path('api/retrieve/<str:warzone_game_id>/', retrieve_game, name='retrieve_game'),
 ]

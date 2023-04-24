@@ -9,12 +9,13 @@ const sumArray = (array: string | any[]) => {
   return sum;
 };
 
-const getTournamentData = async () => {
-  let matchString = String("752505576671720088");
+const getTournamentData = async (matchStringId: string) => {
   try {
-    const response = await fetch(
-      `https://www.callofduty.com/api/papi-client/crm/cod/v2/title/mw/platform/battle/fullMatch/wz/${matchString}/it`
-    );
+    console.log('ran')
+    const response = await fetch(`http://127.0.0.1:8000/api/retrieve/${matchStringId}/`, {
+      method: 'GET'
+    })
+    console.log(response)
     if (!response) {
       throw new Error("Error fetching data");
     }
@@ -23,19 +24,38 @@ const getTournamentData = async () => {
     if (!data) {
       throw new Error("No data returned");
     }
-
-    return data.data.allPlayers;
+    console.log('retrieve', data)
+    return data;
     // Do something with the data
   } catch (error) {
     console.error(error);
   }
+
+  // try {
+  //   const response = await fetch(
+  //     `https://www.callofduty.com/api/papi-client/crm/cod/v2/title/mw/platform/battle/fullMatch/wz/${matchStringId}/it`
+  //   );
+  //   if (!response) {
+  //     throw new Error("Error fetching data");
+  //   }
+
+  //   const data = await response.json();
+  //   if (!data) {
+  //     throw new Error("No data returned");
+  //   }
+
+  //   return data.data.allPlayers;
+  //   // Do something with the data
+  // } catch (error) {
+  //   console.error(error);
+  // }
 };
 
-const useDisplayTournament = async () => {
+const useDisplayTournament = async (matchStringId: string) => {
   const [data, setData] = useState<[]>();
 
   useEffect(() => {
-    getTournamentData()
+    getTournamentData(matchStringId)
       .then((data) => {
         setData(data);
       })
@@ -46,48 +66,48 @@ const useDisplayTournament = async () => {
   }, [getTournamentData]);
 
   if (!data) return;
+  return
+  // const gameData = data?.reduce((acc: any, game: any) => {
+  //   const team = game.player.team;
 
-  const gameData = data?.reduce((acc: any, game: any) => {
-    const team = game.player.team;
+  //   if (!acc[team]) {
+  //     acc[team] = {
+  //         name: team,
+  //         players: [
+  //           {
+  //             name: game.player.username,
+  //             kills: game.playerStats.kills,
+  //             teamPlacement: game.playerStats.teamPlacement
+  //           },
+  //         ],
+  //     };
+  //   } else {
+  //     const player = {
+  //       name: game.player.username,
+  //       kills: game.playerStats.kills,
+  //       teamPlacement: game.playerStats.teamPlacement
+  //     };
 
-    if (!acc[team]) {
-      acc[team] = {
-        team: {
-          name: team,
-          players: [
-            {
-              name: game.player.username,
-              kills: game.playerStats.kills,
-            },
-          ],
-        },
-      };
-    } else {
-      const player = {
-        name: game.player.username,
-        kills: game.playerStats.kills,
-      };
+  //     acc[team].players.push(player);
+  //   }
 
-      acc[team].team.players.push(player);
-    }
+  //   return acc;
+  // }, {});
 
-    return acc;
-  }, {});
+  // const gameDataArray = {gameData: Object.values(gameData), warzoneMatchString: matchStringId};
 
-  const gameDataArray = Object.values(gameData);
-
-  try {
-    const response = await fetch('http://127.0.0.1:8000/api/games/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify(gameDataArray)
-    })
-    console.log('useDisplayTournament line 82: \n', response.json())
-  } catch (error) { // Add actual error in the future
-    console.log('useDisplayTournament line 84', error)
-  }
-
-  return gameDataArray;
+  // try {
+  //   const response = await fetch('http://127.0.0.1:8000/api/create/', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json'},
+  //     body: JSON.stringify(gameDataArray)
+  //   })
+  //   console.log('useDisplayTournament line 82: \n', response.json())
+  // } catch (error) { // Add actual error in the future
+  //   console.log('useDisplayTournament line 84', error)
+  // }
+  // console.log(gameDataArray)
+  // return gameDataArray;
 };
 
 // const displayTournament = () => {
