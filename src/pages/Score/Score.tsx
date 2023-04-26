@@ -7,7 +7,7 @@ const Score = () => {
   const sheetData = location.state.sheetData;
   const data = useDisplayTournament('752505576671720088');
 
-  // console.log("end", data);
+  console.log("end", data);
 
   return (
     <div>
