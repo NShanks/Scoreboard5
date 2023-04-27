@@ -1,10 +1,13 @@
+import { formatPlacement } from "./utils";
+
 interface PlayerProps {
   numberOfPlayers: number;
-  player: number;
+  player: string
 }
 
 interface PlayersProps {
   numberOfPlayers: number;
+  playerNames?: string[]
 }
 
 interface ElimsProps {
@@ -13,14 +16,22 @@ interface ElimsProps {
 
 interface TeamSheetProps {
   numberOfPlayers: number;
-  gameData?: any
+  players?: string[][]
 }
 
-export const TeamSheet = ({ numberOfPlayers, gameData }: TeamSheetProps) => {
-  // console.log('gameData', gameData)
+export const TeamSheet = ({ numberOfPlayers, players }: TeamSheetProps) => {
+  const playerElims = players ? players.slice(1).map((player) => {return player[1]}) : [0]
+
   const elimElements = Array.from({ length: numberOfPlayers }, (_, i) => (
-    <Elims key={i} elims={0} />
+    <Elims key={i} elims={Number(playerElims[i]) || 0} />
   ));
+  
+  console.log(players)
+  // *** Add multipliter ***
+  const totalScore = players ? players.slice(1).map((player) => {
+    return player[1]
+  }).reduce((acc: any, curr) => acc + curr, 0) : 'N/A'
+  
   return (
   <div className="flex flex-row">
     <div>
@@ -32,13 +43,13 @@ export const TeamSheet = ({ numberOfPlayers, gameData }: TeamSheetProps) => {
       <div>
         <div className="border-b-2 px-2 border-teal-400">Place</div>
         <div className="flex justify-center">
-          3rd
+          {players ? formatPlacement(Number(players[0][1])) : "tbd"} 
         </div>
       </div>
       <div>
         <div className="border-b-2 px-2 border-teal-400">Score</div>
         <div className="flex justify-center">
-          100
+          {String(totalScore)}
         </div>
       </div>
   </div>
@@ -46,17 +57,17 @@ export const TeamSheet = ({ numberOfPlayers, gameData }: TeamSheetProps) => {
 
 const Player = ({ numberOfPlayers, player }: PlayerProps) => (
   <div className="justify-center flex">
-    {player + 1}
+    {player}
   </div>
 );
 
 const Elims = ({ elims }: ElimsProps) => (
-  <div className="justify-center flex">{elims + 1}</div>
+  <div className="justify-center flex">{elims}</div>
 );
 
-const Players = ({ numberOfPlayers }: PlayersProps) => {
+const Players = ({ numberOfPlayers, playerNames }: PlayersProps) => {
   const playerElements = Array.from({ length: numberOfPlayers }, (_, i) => (
-    <Player key={i} numberOfPlayers={numberOfPlayers} player={i} />
+    <Player key={i} numberOfPlayers={numberOfPlayers} player={playerNames ? playerNames[i] : 'TBD'} />
   ));
 
 

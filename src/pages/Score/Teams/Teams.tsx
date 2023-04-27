@@ -4,21 +4,21 @@ interface TeamProps {
   teamNumber: number;
   numberOfGames: number;
   numberOfPlayers: number;
-  gameData?: any;
+  team?: [string, number];
 }
 
 interface TeamsProps {
   numberOfTeams: number;
   numberOfGames: number;
   numberOfPlayers: number;
-  gameData?: any;
+  teams?: [string, number][];
 }
 
 const Team = ({
   teamNumber,
   numberOfGames,
   numberOfPlayers,
-  gameData,
+  team,
 }: TeamProps) => {
   return (
     <div className="flex flex-col pl-5 border-2 mb-2 p-2 mx-8 border-gray-500 rounded">
@@ -33,7 +33,7 @@ const Team = ({
       <Games
         numberOfGames={numberOfGames}
         numberOfPlayers={numberOfPlayers}
-        gameData={gameData}
+        gameData={team}
       />
     </div>
   );
@@ -43,7 +43,7 @@ const Teams = ({
   numberOfTeams,
   numberOfGames,
   numberOfPlayers,
-  gameData,
+  teams,
 }: TeamsProps) => {
   const teamElements = Array.from({ length: numberOfTeams }, (_, i) => (
     <Team
@@ -51,7 +51,7 @@ const Teams = ({
       teamNumber={i + 1}
       numberOfGames={numberOfGames}
       numberOfPlayers={numberOfPlayers}
-      gameData={gameData ? gameData[i] : ''}
+      team={teams?.[i]}
     />
   ));
 

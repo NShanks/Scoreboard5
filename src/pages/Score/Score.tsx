@@ -7,7 +7,10 @@ const Score = () => {
   const sheetData = location.state.sheetData;
   const data = useDisplayTournament('752505576671720088');
 
-  console.log("end", data);
+  if (!data) return <div/>
+
+  const teams = Object.entries(data)
+  // console.log('teams', data)
 
   return (
     <div>
@@ -36,10 +39,10 @@ const Score = () => {
         </form>
       </div>
       <Teams
-        numberOfTeams={sheetData.teams}
+        numberOfTeams={teams?.length ? teams.length : sheetData.teams}
         numberOfGames={sheetData.games}
         numberOfPlayers={sheetData.playersPerTeam}
-        gameData={data}
+        teams={teams}
       />
     </div>
   );

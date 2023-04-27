@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { TeamData } from 'types'
 
-const getTournamentData = async (matchStringId: string, callback: (data: any) => void) => {
+const getTournamentData = async (matchStringId: string, callback: (data: TeamData) => void) => {
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/retrieve/${matchStringId}/`, {
       method: 'GET'
@@ -23,7 +24,7 @@ const getTournamentData = async (matchStringId: string, callback: (data: any) =>
 };
 
 const useDisplayTournament = (matchStringId: string) => {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<TeamData>();
 
   useEffect(() => {
     getTournamentData(matchStringId, setData);
