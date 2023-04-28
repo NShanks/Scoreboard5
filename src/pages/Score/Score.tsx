@@ -1,24 +1,59 @@
 import { useLocation } from "react-router-dom";
 import Teams from "pages/Score/Teams";
-import useDisplayTournament from "hooks/useDisplayTournament";
+import getTournamentData from "hooks/useDisplayTournament";
+import { useEffect, useState } from "react";
+import { TeamData } from 'types'
 
 const Score = () => {
   const location = useLocation();
   const sheetData = location.state.sheetData;
-  const data = useDisplayTournament('752505576671720088');
+  const [games, setGames] = useState<any[]>([])
+  const [tournamentId, setTournamentId] = useState('')
+  // remove this later
+  const [refetchTesting, setRefetchTesting] = useState<boolean>()
 
-  if (!data) return <div/>
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getTournamentData(tournamentId);
 
-  const teams = Object.entries(data)
-  // console.log('teams', data)
+      if (!data) return
+      setGames((prevGames) => [...prevGames, data.teams])
+    }
+    fetchData();
+  }, [tournamentId, refetchTesting]);
+
+  console.log(games)
+
+
+  const handleRetrieveWzId = (num: number) => {
+    const input = document.getElementById(`wz${num}`) as HTMLInputElement
+    setTournamentId(input.value)
+    // remove this later
+    setRefetchTesting(!refetchTesting)
+  }
+
+  const numberOfTeams = !games ? Object.entries(games[0]).length : sheetData.teams
+  console.log(numberOfTeams)
 
   return (
     <div>
       <div className="flex flex-row justify-center mb-4">
-        <input placeholder="wz id 1" />
-        <input placeholder="wz id 2" />
-        <input placeholder="wz id 3" />
-        <input placeholder="wz id 4 " />
+        <div className="flex flex-col">
+          <input id="wz1" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
+          <button className="rounded border w-40" onClick={() => handleRetrieveWzId(1)}>Submit</button>
+        </div>
+        <div className="flex flex-col">
+          <input id="wz2" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
+          <button className="rounded border w-40" onClick={() => handleRetrieveWzId(2)}>Submit</button>
+        </div>
+        <div className="flex flex-col">
+          <input id="wz3" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
+          <button className="rounded border w-40" onClick={() => handleRetrieveWzId(3)}>Submit</button>
+        </div>
+        <div className="flex flex-col">
+          <input id="wz4" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
+          <button className="rounded border w-40" onClick={() => handleRetrieveWzId(4)}>Submit</button>
+        </div>
       </div>
       <div className="flex flex-row justify-center mb-4">
         <form className="flex flex-col">
@@ -39,12 +74,13 @@ const Score = () => {
         </form>
       </div>
       <Teams
-        numberOfTeams={teams?.length ? teams.length : sheetData.teams}
+        numberOfTeams={!games ? Object.entries(games[0]).length : sheetData.teams}
         numberOfGames={sheetData.games}
         numberOfPlayers={sheetData.playersPerTeam}
-        teams={teams}
+        // games={games}
       />
     </div>
+    
   );
 };
 

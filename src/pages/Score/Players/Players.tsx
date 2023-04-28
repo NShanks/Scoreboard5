@@ -26,7 +26,7 @@ export const TeamSheet = ({ numberOfPlayers, players }: TeamSheetProps) => {
     <Elims key={i} elims={Number(playerElims[i]) || 0} />
   ));
   
-  console.log(players)
+  // console.log(players)
   // *** Add multipliter ***
   const totalScore = players ? players.slice(1).map((player) => {
     return player[1]
