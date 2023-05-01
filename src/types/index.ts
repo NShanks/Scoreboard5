@@ -1,1 +1,1 @@
-export type { TeamData } from './types';
+export type { TeamData, Game } from './types';

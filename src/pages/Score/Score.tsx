@@ -2,12 +2,12 @@ import { useLocation } from "react-router-dom";
 import Teams from "pages/Score/Teams";
 import getTournamentData from "hooks/useDisplayTournament";
 import { useEffect, useState } from "react";
-import { TeamData } from 'types'
+import { TeamData, Game } from 'types'
 
 const Score = () => {
   const location = useLocation();
   const sheetData = location.state.sheetData;
-  const [games, setGames] = useState<any[]>([])
+  const [games, setGames] = useState<Game[]>([])
   const [tournamentId, setTournamentId] = useState('')
   // remove this later
   const [refetchTesting, setRefetchTesting] = useState<boolean>()
@@ -22,8 +22,6 @@ const Score = () => {
     fetchData();
   }, [tournamentId, refetchTesting]);
 
-  console.log(games)
-
 
   const handleRetrieveWzId = (num: number) => {
     const input = document.getElementById(`wz${num}`) as HTMLInputElement
@@ -32,8 +30,7 @@ const Score = () => {
     setRefetchTesting(!refetchTesting)
   }
 
-  const numberOfTeams = !games ? Object.entries(games[0]).length : sheetData.teams
-  console.log(numberOfTeams)
+  const numberOfTeams = games.length > 0 ? Object.entries(games[0]).length : sheetData.teams
 
   return (
     <div>
@@ -74,10 +71,10 @@ const Score = () => {
         </form>
       </div>
       <Teams
-        numberOfTeams={!games ? Object.entries(games[0]).length : sheetData.teams}
+        numberOfTeams={numberOfTeams}
         numberOfGames={sheetData.games}
         numberOfPlayers={sheetData.playersPerTeam}
-        // games={games}
+        games={games}
       />
     </div>
     

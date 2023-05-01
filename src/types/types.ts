@@ -4,4 +4,7 @@ export type TeamData = {
       [key: string]: number
     }
   }
-  
+
+export type Game = {
+    [key: string] : TeamData
+  }
