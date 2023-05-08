@@ -9,6 +9,7 @@ from collections import defaultdict
 @csrf_exempt
 @transaction.atomic
 def create_game(request):
+    print('test2')
     if request.method == 'POST':
         body = json.loads(request.body)
 
@@ -37,7 +38,6 @@ def create_game(request):
 def retrieve_game(request, warzone_game_id):
     if request.method == 'GET':
         game = Game.objects.filter(warzone_match_string=warzone_game_id)
-
         if not game.exists(): return JsonResponse({'message': 'No game found'})
 
         game_instance = game.first()

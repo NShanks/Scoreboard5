@@ -40,7 +40,7 @@ const Score = () => {
           <button className="rounded border w-40" onClick={() => handleRetrieveWzId(1)}>Submit</button>
         </div>
         <div className="flex flex-col">
-          <input id="wz2" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
+          <input id="wz2" placeholder="Enter Tournament ID" defaultValue='752505576671720089'/>
           <button className="rounded border w-40" onClick={() => handleRetrieveWzId(2)}>Submit</button>
         </div>
         <div className="flex flex-col">
