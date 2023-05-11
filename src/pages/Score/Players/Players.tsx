@@ -1,10 +1,10 @@
 interface PlayersProps {
   numberOfPlayers: number;
-  playerNames?: string[]
+  playerNames: string[]
 }
 const Players = ({ numberOfPlayers, playerNames }: PlayersProps) => {
   const playerElements = Array.from({ length: numberOfPlayers }, (_, i) => (
-    <div className="justify-center flex">{playerNames ? playerNames[i] : 'TBD'}</div>
+    <div className="justify-center flex">{playerNames.length > 0 ? playerNames[i] : 'TBD'}</div>
   ));
 
 

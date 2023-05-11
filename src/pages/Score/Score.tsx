@@ -2,7 +2,8 @@ import { useLocation } from "react-router-dom";
 import Teams from "pages/Score/Teams";
 import getTournamentData from "hooks/useDisplayTournament";
 import { useEffect, useState } from "react";
-import { TeamData, Game } from 'types'
+import { Game } from 'types'
+import MultiplierModal from "Components/MultiplierModal";
 
 const Score = () => {
   const location = useLocation();
@@ -32,6 +33,8 @@ const Score = () => {
 
   const numberOfTeams = games.length > 0 ? Object.entries(games[0]).length : sheetData.teams
 
+  const multipliers = {}
+
   return (
     <div>
       <div className="flex flex-row justify-center mb-4">
@@ -52,24 +55,7 @@ const Score = () => {
           <button className="rounded border w-40" onClick={() => handleRetrieveWzId(4)}>Submit</button>
         </div>
       </div>
-      <div className="flex flex-row justify-center mb-4">
-        <form className="flex flex-col">
-          <label>Multi 1</label>
-          <input placeholder="Enter Multiplier" />
-        </form>
-        <form className="flex flex-col">
-          <label>Multi 2</label>
-          <input placeholder="Enter Multiplier" />
-        </form>
-        <form className="flex flex-col">
-          <label>Multi 3</label>
-          <input placeholder="Enter Multiplier" />
-        </form>
-        <form className="flex flex-col">
-          <label>Multi 4</label>
-          <input placeholder="Enter Multiplier" />
-        </form>
-      </div>
+      <MultiplierModal multipliers={multipliers}></MultiplierModal>
       <Teams
         numberOfTeams={numberOfTeams}
         numberOfGames={sheetData.games}
