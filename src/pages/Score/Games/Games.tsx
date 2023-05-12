@@ -53,16 +53,16 @@ const Round = ({ numberOfPlayers, players, place, game, playerNames }: GameProps
 const Games = ({ numberOfGames, numberOfPlayers, games }: GamesProps) => {
   const playerNames = (games.length > 0 ? Object.keys(games[0]).filter(name => name !== 'placement').sort() : [])
 
-  const playedGames = Array.from({ length: games.length }, (_, i) => (
-    <Round key={i+1} numberOfPlayers={numberOfPlayers} place={Number(games[i].placement)} game={games[i]} playerNames={playerNames}/>
-  ));
-
-  const gamePlaceholders = Array.from({ length: numberOfGames-games.length }, (_, i) => (
-    <Round key={i+1} numberOfPlayers={numberOfPlayers} />
+  const gameElements = Array.from({ length: numberOfGames }, (_, i) => (
+    <>
+      {games.length > i ? (
+        <Round key={i} numberOfPlayers={numberOfPlayers} place={Number(games[i].placement)} game={games[i]} playerNames={playerNames}/>
+        ) : 
+        <Round key={i} numberOfPlayers={numberOfPlayers} />
+      }
+    </>
   ));
   
-  const gameElements = [playedGames, gamePlaceholders]
-
   return (
     <div>
       <Players numberOfPlayers={numberOfPlayers} playerNames={playerNames}/>

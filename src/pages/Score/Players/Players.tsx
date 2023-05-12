@@ -4,7 +4,7 @@ interface PlayersProps {
 }
 const Players = ({ numberOfPlayers, playerNames }: PlayersProps) => {
   const playerElements = Array.from({ length: numberOfPlayers }, (_, i) => (
-    <div className="justify-center flex">{playerNames.length > 0 ? playerNames[i] : 'TBD'}</div>
+    <div key={i} className="justify-center flex">{playerNames.length > 0 ? playerNames[i] : 'TBD'}</div>
   ));
 
 

@@ -1,31 +1,33 @@
 import { useState } from "react";
 import RenameModal from "Components/RenameModal";
 import LoadModal from "Components/LoadModal";
+import useModal from 'hooks/useModal'
 
 export default function Home() {
-  const [isLoadModalOpen, setIsLoadModalOpen] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { isModalOpen: isLoadModalOpen, openModal: openLoadModal, closeModal: closeLoadModal } = useModal();
+  const { isModalOpen, closeModal, openModal} = useModal();
+
   return (
     <>
       <div className="">
         <RenameModal
           isOpen={isModalOpen}
-          closeModal={() => setIsModalOpen(false)}
+          closeModal={closeModal}
         />
         <LoadModal
           isOpen={isLoadModalOpen}
-          closeModal={() => setIsLoadModalOpen(false)}
+          closeModal={closeLoadModal}
         />
         <div className="flex flex-row gap-2">
           <button
             className="border-2 border-black px-4 rounded-md"
-            onClick={() => setIsModalOpen(true)}
+            onClick={openModal}
           >
             Create
           </button>
           <button
             className="border-2 border-black px-4 rounded-md"
-            onClick={() => setIsLoadModalOpen(true)}
+            onClick={openLoadModal}
           >
             Load
           </button>
