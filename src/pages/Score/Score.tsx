@@ -13,8 +13,8 @@ const Score = () => {
   const [tournamentId, setTournamentId] = useState('')
   // remove this later
   const [refetchTesting, setRefetchTesting] = useState<boolean>()
-
-  const { isModalOpen,  closeModal, openModal} = useModal();
+  const [multipliers, setMultipliers] = useState<{[key: string]: string;}>({})
+  const { isModalOpen,  closeModal, openModal } = useModal();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,8 +36,6 @@ const Score = () => {
 
   const numberOfTeams = games.length > 0 ? Object.entries(games[0]).length : sheetData.teams
 
-  const [multipliers, setMultipliers] = useState<{[key: string]: string;}>({})
-
   return (
     <div>
       <div className="flex flex-row justify-center mb-4">
@@ -58,13 +56,14 @@ const Score = () => {
           <button className="rounded border w-40" onClick={() => handleRetrieveWzId(4)}>Submit</button>
         </div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={openModal}>Multipliers</button>
-        <a href="#_" className="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white font-bold hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+        <a href="#_" className="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white font-bold hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
           <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
           <span className="relative">Multipliers</span>
         </a>
       </div>
       <MultiplierModal multipliers={multipliers} setMultipliers={setMultipliers} isOpen={isModalOpen} closeModal={closeModal}/>
       <Teams
+        multipliers={multipliers}
         numberOfTeams={numberOfTeams}
         numberOfGames={sheetData.games}
         numberOfPlayers={sheetData.playersPerTeam}

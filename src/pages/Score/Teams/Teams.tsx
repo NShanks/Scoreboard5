@@ -5,8 +5,8 @@ interface TeamProps {
   teamNumber: number;
   numberOfGames: number;
   numberOfPlayers: number;
-  // team?: [string, TeamData];
   teamGames: TeamData[];
+  multipliers: {[key: string]: string}
 }
 
 interface TeamsProps {
@@ -14,13 +14,15 @@ interface TeamsProps {
   numberOfGames: number;
   numberOfPlayers: number;
   games: Game[];
+  multipliers: {[key: string]: string}
 }
 
 const Team = ({
   teamNumber,
   numberOfGames,
   numberOfPlayers,
-  teamGames
+  teamGames,
+  multipliers
 }: TeamProps) => {
   return (
     <div className="flex flex-col pl-5 border-2 mb-2 p-2 mx-8 border-gray-500 rounded">
@@ -36,6 +38,7 @@ const Team = ({
         numberOfGames={numberOfGames}
         numberOfPlayers={numberOfPlayers}
         games={teamGames}
+        multipliers={multipliers}
       />
     </div>
   );
@@ -62,6 +65,7 @@ const Teams = ({
   numberOfGames,
   numberOfPlayers,
   games,
+  multipliers
 }: TeamsProps) => {
   const teamElements = Array.from({ length: numberOfTeams }, (_, i) => {
 
@@ -70,6 +74,7 @@ const Teams = ({
     return (
       <Team
         key={i}
+        multipliers={multipliers}
         teamNumber={i}
         numberOfGames={numberOfGames}
         numberOfPlayers={numberOfPlayers}

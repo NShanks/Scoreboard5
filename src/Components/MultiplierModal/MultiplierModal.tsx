@@ -22,9 +22,16 @@ const MultiplierModal = ({ multipliers, setMultipliers, isOpen, closeModal }: Mu
 
         setShowMultipliers(true)
     }
+
     const addMultiAndClose = () => {
         addMultis()
         closeModal()
+    }
+
+    const removeMulti = (place: string) => {
+        const updatedMultipliers = { ...multipliers }
+        delete updatedMultipliers[place]
+        setMultipliers(updatedMultipliers)
     }
 
 
@@ -61,19 +68,17 @@ const MultiplierModal = ({ multipliers, setMultipliers, isOpen, closeModal }: Mu
                         <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-green-400 -rotate-12"></span>
                         <span className="relative">Cancel</span>
                     </button>
-                    <div className="absolute w-56 sm:w-24 mt-72 sm:ml-60 sm:mt-0 ease-in-out duration-1000 z-50">
-                        <div className="bg-white rounded p-2 min-h-[208px] h-auto">
-                            {showMultipliers && Object.keys(multipliers).map((key) => (
-                                <div className='flex flex-row justify-around'>
-                                    <div>
-                                        {formatPlacement(Number(key))}:
-                                    </div>
-                                    <div>
-                                        {multipliers[key]} 
-                                    </div>
+                    <div className="absolute w-56 sm:w-24 mt-72 sm:ml-60 sm:mt-0 ease-in-out duration-1000 z-50 bg-white rounded p-2 min-h-[208px] h-auto">
+                        {showMultipliers && Object.keys(multipliers).map((key) => (
+                            <div id={key} className='flex flex-row justify-around hover:bg-red-500 rounded' onClick={ () => removeMulti(key) } role='button'>
+                                <div>
+                                    {formatPlacement(Number(key))}:
                                 </div>
-                            ))}
-                        </div>
+                                <div>
+                                    {multipliers[key]}
+                                </div>
+                            </div>
+                        ))}
                     </div>    
                 </div>
             </Modal>    
