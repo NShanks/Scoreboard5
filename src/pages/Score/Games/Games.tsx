@@ -77,7 +77,7 @@ const Games = ({ numberOfGames, numberOfPlayers, games, setTotalScore }: GamesPr
   return (
     <div>
       <Players numberOfPlayers={numberOfPlayers} playerNames={playerNames}/>
-      <div className="flex gap-8 justify-center">{gameElements}</div>
+      <div className="flex gap-8 justify-center flex-col lg:flex-row items-center">{gameElements}</div>
     </div>
   );
 };

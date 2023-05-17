@@ -6,5 +6,9 @@ export type TeamData = {
   }
 
 export type Game = {
-    [key: string] : TeamData
+    match_string: string;
+    game: {
+      [key: string]: TeamData;
+    };
   }
+  

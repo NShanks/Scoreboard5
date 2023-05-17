@@ -9,7 +9,7 @@ const Players = ({ numberOfPlayers, playerNames }: PlayersProps) => {
 
 
   return (
-    <div className="flex flex-row justify-center gap-8">
+    <div className="flex flex-row justify-center gap-8 overflow-auto">
         {playerElements}
     </div>
   );

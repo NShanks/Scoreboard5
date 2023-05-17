@@ -53,7 +53,7 @@ const Teams = ({
 }: TeamsProps) => {
   const teamElements = Array.from({ length: numberOfTeams }, (_, i) => {
     const teamGames = combineGames(games, i)
-    // console.log(teamGames)
+    
     return (
       <Team
         key={i}
@@ -63,7 +63,7 @@ const Teams = ({
         teamGames={teamGames}
       />
   )});
-      console.log(teamElements)
+
   return <div>{teamElements}</div>;
 };
 

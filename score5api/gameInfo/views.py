@@ -43,9 +43,11 @@ def retrieve_game(request, warzone_game_id):
         game_instance = game.first()
         
         teams = defaultdict(dict)
+        teams['match_string'] = game_instance.warzone_match_string
+        teams['game'] = defaultdict(dict)
 
         for stat in Stats.objects.filter(game_id=game_instance.pk):
-            teams[stat.team_name]["placement"] = stat.place
-            teams[stat.team_name][stat.player_name] = stat.kills
+            teams['game'][stat.team_name]["placement"] = stat.place
+            teams['game'][stat.team_name][stat.player_name] = stat.kills
 
         return JsonResponse({'message': 'Game retrieved', 'teams': teams})

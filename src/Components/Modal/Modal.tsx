@@ -4,7 +4,7 @@ interface ModalProps {
   children?: React.ReactElement;
   isOpen: boolean;
   closeModal: () => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
 }
 
 const Modal = ({ children, isOpen, closeModal, onSubmit }: ModalProps) => {

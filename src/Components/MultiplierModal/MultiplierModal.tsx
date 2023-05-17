@@ -37,7 +37,7 @@ const MultiplierModal = ({ multipliers, setMultipliers, isOpen, closeModal }: Mu
 
     return (
         <>
-            <Modal isOpen={isOpen} closeModal={closeModal} onSubmit={ () => console.log()}>
+            <Modal isOpen={isOpen} closeModal={closeModal}>
                 <div className="flex flex-col ">
                     <div className="flex flex-col items-center">
                         Placement
@@ -66,7 +66,7 @@ const MultiplierModal = ({ multipliers, setMultipliers, isOpen, closeModal }: Mu
                         <span className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform skew-x-12 bg-green-700 group-hover:bg-green-500 group-hover:-skew-x-12"></span>
                         <span className="absolute bottom-0 left-0 hidden w-10 h-20 transition-all duration-100 ease-out transform -translate-x-8 translate-y-10 bg-green-600 -rotate-12"></span>
                         <span className="absolute bottom-0 right-0 hidden w-10 h-20 transition-all duration-100 ease-out transform translate-x-10 translate-y-8 bg-green-400 -rotate-12"></span>
-                        <span className="relative">Cancel</span>
+                        <span className="relative">Close</span>
                     </button>
                     <div className="absolute w-56 sm:w-24 mt-72 sm:ml-60 sm:mt-0 ease-in-out duration-1000 z-50 bg-white rounded p-2 min-h-[208px] h-auto">
                         {showMultipliers && Object.keys(multipliers).map((key) => (
