@@ -15,8 +15,9 @@ const Score = () => {
   const [games, setGames] = useState<Game[]>([])
   const [tournamentId, setTournamentId] = useState('')
   const [multipliers, setMultipliers] = useState<{[key: string]: string;}>({})
-  const { isModalOpen:isMultiplierModalOpen, closeModal:closeMultiplierModal, openModal:openMultiplierModal } = useModal();
-  const { isModalOpen:isWzStringModalOpen, closeModal:closeWzStringModal, openModal:openWzStringModal } = useModal();
+  const [matchStringList, setMatchStringList] = useState<string[]>([])
+  const { isModalOpen: isMultiplierModalOpen, closeModal: closeMultiplierModal, openModal: openMultiplierModal } = useModal();
+  const { isModalOpen: isWzStringModalOpen, closeModal: closeWzStringModal, openModal: openWzStringModal } = useModal();
 
 
   useEffect(() => {
@@ -25,14 +26,14 @@ const Score = () => {
 
       if (!data) return
       setGames((prevGames) => [...prevGames, data.teams])
+      setMatchStringList(prevStrings => [...prevStrings, data.teams.match_string])
     }
     fetchData();
   }, [tournamentId]);
 
-
-  const handleRetrieveWzId = (num: number) => {
-    const input = document.getElementById(`wz${num}`) as HTMLInputElement
-    setTournamentId(input.value)
+  const handleRemoveGame = (matchString: string) => {
+    const updatedGames = games.filter((game) => game.match_string !== matchString)
+    setGames(updatedGames)
   }
 
   const numberOfTeams = games.length > 0 ? Object.entries(games[0].game).length : sheetData.teams
@@ -41,22 +42,6 @@ const Score = () => {
     <MultiplierContext.Provider value={multipliers}>
       <div>
         <div className="flex flex-row justify-center mb-4">
-          {/* <div className="flex flex-col">
-            <input id="wz1" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
-            <button className="rounded border w-40" onClick={() => handleRetrieveWzId(1)}>Submit</button>
-          </div>
-          <div className="flex flex-col">
-            <input id="wz2" placeholder="Enter Tournament ID" defaultValue='752505576671720089'/>
-            <button className="rounded border w-40" onClick={() => handleRetrieveWzId(2)}>Submit</button>
-          </div>
-          <div className="flex flex-col">
-            <input id="wz3" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
-            <button className="rounded border w-40" onClick={() => handleRetrieveWzId(3)}>Submit</button>
-          </div>
-          <div className="flex flex-col">
-            <input id="wz4" placeholder="Enter Tournament ID" defaultValue='752505576671720088'/>
-            <button className="rounded border w-40" onClick={() => handleRetrieveWzId(4)}>Submit</button>
-          </div> */}
           <div className="flex flex-row gap-8">
             <button className="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white font-bold hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300" onClick={openWzStringModal}>
               <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
@@ -68,7 +53,7 @@ const Score = () => {
             </button>
           </div>
         </div>
-        <WzStringModal multipliers={multipliers} setTournamentId={setTournamentId} isOpen={isWzStringModalOpen} closeModal={closeWzStringModal}/>
+        <WzStringModal setTournamentId={setTournamentId} isOpen={isWzStringModalOpen} closeModal={closeWzStringModal} matchStringList={matchStringList} setMatchStringList={setMatchStringList} handleRemoveGame={handleRemoveGame}/>
         <MultiplierModal multipliers={multipliers} setMultipliers={setMultipliers} isOpen={isMultiplierModalOpen} closeModal={closeMultiplierModal}/>
         <Teams
           numberOfTeams={numberOfTeams}
