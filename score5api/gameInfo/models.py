@@ -16,3 +16,13 @@ class Stats(models.Model):
 
     def __str__(self):
         return self.player_name
+
+class Player(models.Model):
+    username = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.username
+
+class Team(models.Model):
+    players = models.ManyToManyField(Player)
+    team_name = models.CharField(max_length=100, unique=True)

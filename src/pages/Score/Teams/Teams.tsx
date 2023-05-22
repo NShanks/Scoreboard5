@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Games from "pages/Score/Games";
 import { Game, TeamData } from "types";
 import { combineGames } from './utils'
@@ -25,6 +25,9 @@ const Team = ({
   teamGames,
 }: TeamProps) => {
   const [totalScore, setTotalScore] = useState(0)
+
+  // useEffect(() => setTotalScore(0), [teamGames])
+
   return (
     <div className="flex flex-col pl-5 border-2 mb-2 p-2 mx-8 border-gray-500 rounded">
       <div className="border-b-2 pb-2 items-center flex justify-between">
@@ -53,7 +56,7 @@ const Teams = ({
 }: TeamsProps) => {
   const teamElements = Array.from({ length: numberOfTeams }, (_, i) => {
     const teamGames = combineGames(games, i)
-    
+    console.log('after', teamGames)
     return (
       <Team
         key={i}

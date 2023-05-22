@@ -6,7 +6,6 @@ import { MultiplierContext } from '../Score';
 
 interface RoundProps {
   numberOfPlayers: number;
-  players?: string[][];
   place?: number;
   game?: TeamData;
   playerNames?: string[];
@@ -21,20 +20,18 @@ interface GamesProps {
   setTotalScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Round = ({ numberOfPlayers, players, place, game, playerNames, multiplier = 1, setTotalScore }: RoundProps) => {
-  const playerElims = players ? players.slice(1).map((player) => {return player[1]}) : [0]
-
+const Round = ({ numberOfPlayers, place, game, playerNames, multiplier = 1, setTotalScore }: RoundProps) => {
   const elimElements = Array.from({ length: playerNames?.length || numberOfPlayers }, (_, i) => (
     <div className="justify-center flex">{game && playerNames ? String(game[playerNames[i]]) : 0}</div>
   ));
 
-  // *** Add multiplier ***
   let gameScore = 0 - Number(game?.placement)
 
   gameScore = game ? Object.values(game).reduce((acc, curr) => acc + Number(curr), gameScore) * multiplier : 0
   
   useEffect(() => {
     setTotalScore((prevScore) => prevScore + gameScore)
+    console.log('test, checking gameScore', gameScore, game)
   }, [gameScore, setTotalScore])
   
   return (

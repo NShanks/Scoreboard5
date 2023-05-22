@@ -2,14 +2,13 @@ import json
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from gameInfo.models import Game, Stats
+from gameInfo.models import Game, Stats, Player, Team
 from django.db import IntegrityError, transaction
 from collections import defaultdict
 
 @csrf_exempt
 @transaction.atomic
 def create_game(request):
-    print('test2')
     if request.method == 'POST':
         body = json.loads(request.body)
 
@@ -22,18 +21,27 @@ def create_game(request):
             return JsonResponse({'message': 'Game already exists'}, status=400)
 
         for team in body['gameData']:
-            team_name = team['name']
+            player_instances = []
             for player in team['players']:
+                player_instance, _ = Player.objects.get_or_create(username=player['name'])
+                player_instances.append(player_instance)
+
+            team_instance, _ = Team.objects.get_or_create(players__in=player_instances)
+            if team_instance.players.count() != len(player_instances):
+                team_instance.players.set(player_instances)
+
+            for player_instance in player_instances:
                 stats = Stats(
-                    game_id=game,
-                    team_name=team_name,
-                    player_name=player['name'],
+                    game=game,
+                    team=team_instance,
+                    player=player_instance,
                     kills=player['kills'],
                     place=player['teamPlacement']
                 )
                 stats.save()
 
         return JsonResponse({'message': 'Process succeeded'})
+
 
 def retrieve_game(request, warzone_game_id):
     if request.method == 'GET':
