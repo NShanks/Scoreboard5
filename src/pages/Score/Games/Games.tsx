@@ -31,7 +31,6 @@ const Round = ({ numberOfPlayers, place, game, playerNames, multiplier = 1, setT
   
   useEffect(() => {
     setTotalScore((prevScore) => prevScore + gameScore)
-    console.log('test, checking gameScore', gameScore, game)
   }, [gameScore, setTotalScore])
   
   return (

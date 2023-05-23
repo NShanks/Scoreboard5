@@ -7,15 +7,7 @@ class Game(models.Model):
     def __str__(self):
         return self.warzone_match_string
 
-class Stats(models.Model):
-    game_id = models.ForeignKey(Game, on_delete=models.CASCADE)
-    player_name = models.CharField(max_length=50)
-    team_name = models.CharField(max_length=50)
-    kills = models.IntegerField(default=0)
-    place = models.IntegerField(default=0)
 
-    def __str__(self):
-        return self.player_name
 
 class Player(models.Model):
     username = models.CharField(max_length=50)
@@ -26,3 +18,16 @@ class Player(models.Model):
 class Team(models.Model):
     players = models.ManyToManyField(Player)
     team_name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.team_name
+
+class Stats(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    kills = models.IntegerField(default=0)
+    place = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.player.username

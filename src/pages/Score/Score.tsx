@@ -24,7 +24,7 @@ const Score = () => {
   const { isModalOpen: isMultiplierModalOpen, closeModal: closeMultiplierModal, openModal: openMultiplierModal } = useModal();
   const { isModalOpen: isWzStringModalOpen, closeModal: closeWzStringModal, openModal: openWzStringModal } = useModal();
 
-  console.log('before', games)
+  // console.log('before', games)
 
   useEffect(() => {
     const fetchData = async () => {
