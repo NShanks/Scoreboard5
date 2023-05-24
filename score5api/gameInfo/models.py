@@ -7,8 +7,6 @@ class Game(models.Model):
     def __str__(self):
         return self.warzone_match_string
 
-
-
 class Player(models.Model):
     username = models.CharField(max_length=50)
 
@@ -24,8 +22,8 @@ class Team(models.Model):
 
 class Stats(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, null=True, on_delete=models.CASCADE)
     kills = models.IntegerField(default=0)
     place = models.IntegerField(default=0)
 
