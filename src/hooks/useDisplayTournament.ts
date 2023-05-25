@@ -10,20 +10,17 @@ const getTournamentData = async (matchStringId: string) => {
     })
 
     if (!response.ok) {
-      console.log('first', response)
       throw new Error("Error fetching data");
     }
 
     const data = await response.json();
 
     if (!data) {
-      console.log('second')
       throw new Error("No data returned");
     }
 
     return data
   } catch (error) {
-    console.log('third', error)
     console.error(error);
   }
 };

@@ -35,7 +35,6 @@ def create_game(warzone_match_string, game_data):
     for _, players in teams.items():
         existing_team = get_team_or_create(players)
 
-        # Now, use `existing_team` and the stats from `player_stats` to record stats for this game
         for player in players:
             stats, _ = Stats.objects.get_or_create(game=game, player=player, team=existing_team, kills=player_stats[str(player)]['kills'], place = player_stats[str(player)]['place'])
             stats.save()
@@ -49,15 +48,14 @@ def retrieve_game(request, warzone_game_id):
     if request.method == 'GET':
         game = Game.objects.filter(warzone_match_string=warzone_game_id)
         if not game.exists():
-            # Fetch game data from API
-            api_url = 'https://www.callofduty.com/api/papi-client/crm/cod/v2/title/mw/platform/battle/fullMatch/wz/752505576671720088/it'
+            api_url = f'https://www.callofduty.com/api/papi-client/crm/cod/v2/title/mw/platform/battle/fullMatch/wz/{warzone_game_id}/it'
             response = requests.get(api_url)
             
             if response.status_code != 200:
                 return JsonResponse({'message': 'Failed to fetch game data'})
 
-            response_data = response.json()  # Parse the JSON response into a Python dictionary
-            game_data = response_data.get('data', {}).get('allPlayers', [])  # Get the 'allPlayers' data
+            response_data = response.json()
+            game_data = response_data.get('data', {}).get('allPlayers', [])
 
             # Create the game
             create_game_response = create_game(warzone_game_id, game_data)
@@ -67,18 +65,22 @@ def retrieve_game(request, warzone_game_id):
             
             game = Game.objects.filter(warzone_match_string=warzone_game_id)
 
-        # game_instance = game.first()
+        game_instance = game.first()
         
-        # teams = defaultdict(lambda: defaultdict(dict))
-        # teams['match_string'] = game_instance.warzone_match_string
+        teams = defaultdict(lambda: defaultdict(dict))
+        teams['match_string'] = game_instance.warzone_match_string
 
-        # for stat in Stats.objects.filter(game=game_instance):
-        #     team_name = "Team " + str(stat.team.id)
-        #     player_name = stat.player.username
-        #     teams[team_name]["placement"] = stat.place
-        #     teams[team_name][player_name] = stat.kills
+        for stat in Stats.objects.filter(game=game_instance):
+            team_name = stat.team.team_name
+            player_name = stat.player.username
+            teams[team_name]["placement"] = stat.place
+            teams[team_name][player_name] = stat.kills
 
-        # return JsonResponse({'message': 'Game retrieved', 'teams': teams})
+            if 'Score' not in teams[team_name]:
+                teams[team_name]['Score'] = 0
+            teams[team_name]['Score'] += stat.kills
+
+        return JsonResponse({'message': 'Game retrieved', 'teams': teams})
 
 def get_team_or_create(players):
     # Get teams that include any of the players
