@@ -27,7 +27,7 @@ const Round = ({ numberOfPlayers, place, game, playerNames, multiplier = 1, setT
 
   let gameScore = 0 - Number(game?.placement)
 
-  gameScore = game ? Object.values(game).reduce((acc, curr) => acc + Number(curr), gameScore) * multiplier : 0
+  gameScore = game ? game.score * multiplier : 0
   
   useEffect(() => {
     setTotalScore((prevScore) => prevScore + gameScore)

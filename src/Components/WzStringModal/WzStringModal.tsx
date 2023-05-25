@@ -28,7 +28,7 @@ const WzStringModal = ({ setTournamentId, isOpen, closeModal, matchStringList, s
 
     return (
         <>
-            <Modal isOpen={isOpen} closeModal={closeModal}>
+            <Modal isOpen={true} closeModal={closeModal}>
                 <div className="flex flex-col ">
                     <div className="flex flex-col items-center">
                         Match

@@ -16,7 +16,7 @@ const Score = () => {
   const [tournamentId, setTournamentId] = useState('');
   const [multipliers, setMultipliers] = useState<{[key: string]: string;}>({});
   const [matchStringList, setMatchStringList] = useState<string[]>([]);
-  const [scores, setScores] = useState({});
+  // const [scores, setScores] = useState({});
   const { isModalOpen: isMultiplierModalOpen, closeModal: closeMultiplierModal, openModal: openMultiplierModal } = useModal();
   const { isModalOpen: isWzStringModalOpen, closeModal: closeWzStringModal, openModal: openWzStringModal } = useModal();
 
@@ -36,7 +36,8 @@ const Score = () => {
     setGames(updatedGames)
   }
 
-  const numberOfTeams = games.length > 0 ? Object.entries(games[0].game).length : sheetData.teams
+  // console.log(games)
+  const numberOfTeams = games.length > 0 ? games.length : sheetData.teams
 
   return (
     <MultiplierContext.Provider value={multipliers}>

@@ -55,9 +55,11 @@ const Teams = ({
   games,
 }: TeamsProps) => {
   const teamElements = Array.from({ length: numberOfTeams }, (_, i) => {
+    if (games.length > 0 && typeof Object.values(games[0])[i] === 'string') i++
     const teamGames = combineGames(games, i)
 
     return (
+      // <></>
       <Team
         key={i}
         teamNumber={i}

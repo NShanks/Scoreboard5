@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CreateTournamentModal from "Components/CreateTournamentModal";
 import LoadModal from "Components/LoadModal";
 import useModal from 'hooks/useModal'

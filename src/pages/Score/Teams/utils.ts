@@ -4,14 +4,15 @@ export const combineGames = (games:Game[], i: number) => {
     const teamGames = []
 
     if (games.length > 0) {
-      teamGames.push(Object.values(games[0].game)[i])
+      teamGames.push(Object.values(games[0])[i])
 
-      const firstGameUser = Object.keys(Object.values(games[0].game)[i])[1]
+      const teamName = Object.keys(games[0])[i]
+      console.log(games[0][teamName])
   
       for (let x = 1; x < games.length; x++) {
-        const nextGame = Object.values(games[x].game).filter(team => Object.keys(team).includes(firstGameUser))
+        const nextGame = games[x][teamName]
   
-        if (nextGame) teamGames.push(nextGame[0])
+        if (nextGame) teamGames.push(nextGame)
       }
     }
     return teamGames

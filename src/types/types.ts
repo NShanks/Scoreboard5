@@ -1,14 +1,10 @@
 export type TeamData = {
-    [key: string]: {
-      placement: number,
-      [key: string]: number
-    }
-  }
+  placement: number;
+  [playerName: string]: number | string;
+  score: number;
+};
 
 export type Game = {
-    match_string: string;
-    game: {
-      [key: string]: TeamData;
-    };
-  }
-  
+  match_string: string;
+  [teamName: string]: TeamData | string;
+};
