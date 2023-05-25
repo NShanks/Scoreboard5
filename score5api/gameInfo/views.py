@@ -57,7 +57,6 @@ def retrieve_game(request, warzone_game_id):
             response_data = response.json()
             game_data = response_data.get('data', {}).get('allPlayers', [])
 
-            # Create the game
             create_game_response = create_game(warzone_game_id, game_data)
             
             if create_game_response.status_code != 200:
@@ -83,17 +82,14 @@ def retrieve_game(request, warzone_game_id):
         return JsonResponse({'message': 'Game retrieved', 'teams': teams})
 
 def get_team_or_create(players):
-    # Get teams that include any of the players
     team_qs = Team.objects.filter(players__in=players).distinct()
 
-    # If no such teams exist, create a new one
     if not team_qs.exists():
-        team_name = f"{players[0].username}'s team"  # You can adjust the team naming logic here
+        team_name = f"{players[0].username}'s team"
         new_team = Team.objects.create(team_name=team_name)
         new_team.players.set(players)
         return new_team
 
-    # If teams exist, pick the one that has the maximum overlap with the current set of players
     max_overlap = 0
     best_team = None
     for team in team_qs:

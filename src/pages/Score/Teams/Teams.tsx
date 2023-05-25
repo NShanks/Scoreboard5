@@ -56,7 +56,7 @@ const Teams = ({
 }: TeamsProps) => {
   const teamElements = Array.from({ length: numberOfTeams }, (_, i) => {
     const teamGames = combineGames(games, i)
-    // console.log('after', teamGames)
+
     return (
       <Team
         key={i}

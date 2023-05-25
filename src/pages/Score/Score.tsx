@@ -9,10 +9,6 @@ import WzStringModal from "Components/WzStringModal/WzStringModal";
 
 export const MultiplierContext = createContext<{[key: string]: string;}>({});
 
-// export const calculateScores = (games) => {
-
-// }
-
 const Score = () => {
   const location = useLocation();
   const sheetData = location.state.sheetData;
@@ -23,8 +19,6 @@ const Score = () => {
   const [scores, setScores] = useState({});
   const { isModalOpen: isMultiplierModalOpen, closeModal: closeMultiplierModal, openModal: openMultiplierModal } = useModal();
   const { isModalOpen: isWzStringModalOpen, closeModal: closeWzStringModal, openModal: openWzStringModal } = useModal();
-
-  // console.log('before', games)
 
   useEffect(() => {
     const fetchData = async () => {

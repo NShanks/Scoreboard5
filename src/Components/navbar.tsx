@@ -16,7 +16,6 @@ const Navbar = () => {
   return (
     <nav className="flex flex-row bg-gray-300 gap-4 justify-center mb-4">
       <Link to="/" className="site-title">
-        {/* Scoreboard Website thing */}
         Home
       </Link>
       <ul>
