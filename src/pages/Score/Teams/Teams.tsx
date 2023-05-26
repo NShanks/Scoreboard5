@@ -54,20 +54,37 @@ const Teams = ({
   numberOfPlayers,
   games,
 }: TeamsProps) => {
-  const teamElements = Array.from({ length: numberOfTeams }, (_, i) => {
-    if (games.length > 0 && typeof Object.values(games[0])[i] === 'string') i++
-    const teamGames = combineGames(games, i)
 
-    return (
-      // <></>
-      <Team
+  const { match_string, ...teams } = games[0] || {}; 
+  const teamNames = Object.keys(teams)
+
+  if (games.length > 0) {
+    const teamElements = teamNames.map((teamName, i) => {
+      const teamGames = combineGames(games, teamName)
+
+      return (
+        <Team
         key={i}
         teamNumber={i}
         numberOfGames={numberOfGames}
         numberOfPlayers={numberOfPlayers}
         teamGames={teamGames}
       />
-  )});
+      )
+    })
+
+    return <div>{teamElements}</div>
+  }
+
+  const teamElements = Array.from({ length: numberOfTeams }, (_, i) => (
+      <Team
+        key={i}
+        teamNumber={i}
+        numberOfGames={numberOfGames}
+        numberOfPlayers={numberOfPlayers}
+        teamGames={[]}
+      />
+  ));
 
   return <div>{teamElements}</div>;
 };

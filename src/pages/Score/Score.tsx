@@ -36,8 +36,7 @@ const Score = () => {
     setGames(updatedGames)
   }
 
-  // console.log(games)
-  const numberOfTeams = games.length > 0 ? games.length : sheetData.teams
+  const numberOfTeams = games.length > 0 ? Object.keys(games[0]).length : sheetData.teams
 
   return (
     <MultiplierContext.Provider value={multipliers}>

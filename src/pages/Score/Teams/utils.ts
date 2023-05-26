@@ -1,19 +1,15 @@
-import { Game } from 'types'
+import { GameData } from 'types'
 
-export const combineGames = (games:Game[], i: number) => {
+export const combineGames = (games:GameData[], teamName: string) => {
     const teamGames = []
 
-    if (games.length > 0) {
-      teamGames.push(Object.values(games[0])[i])
+    teamGames.push(games[0][teamName])
 
-      const teamName = Object.keys(games[0])[i]
-      console.log(games[0][teamName])
-  
-      for (let x = 1; x < games.length; x++) {
-        const nextGame = games[x][teamName]
-  
-        if (nextGame) teamGames.push(nextGame)
-      }
+    for (let x = 1; x < games.length; x++) {
+      const nextGame = games[x][teamName]
+
+      if (nextGame) teamGames.push(nextGame)
     }
+
     return teamGames
 }

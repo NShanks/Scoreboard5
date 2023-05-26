@@ -4,7 +4,10 @@ export type TeamData = {
   score: number;
 };
 
-export type Game = {
+export type GameData = {
+  [teamName: string]: TeamData;
+};
+
+export type Game = GameData & {
   match_string: string;
-  [teamName: string]: TeamData | string;
 };

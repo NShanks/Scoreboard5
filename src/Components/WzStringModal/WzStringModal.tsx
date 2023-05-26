@@ -24,11 +24,12 @@ const WzStringModal = ({ setTournamentId, isOpen, closeModal, matchStringList, s
     const removeMatch = (matchString: string) => {
         setMatchStringList(matchStringList.filter((currWzId) => currWzId !== matchString))
         handleRemoveGame(matchString)
+        setTournamentId('')
     }
 
     return (
         <>
-            <Modal isOpen={true} closeModal={closeModal}>
+            <Modal isOpen={isOpen} closeModal={closeModal}>
                 <div className="flex flex-col ">
                     <div className="flex flex-col items-center">
                         Match
