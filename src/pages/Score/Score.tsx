@@ -16,7 +16,7 @@ const Score = () => {
   const [tournamentId, setTournamentId] = useState('');
   const [multipliers, setMultipliers] = useState<{[key: string]: string;}>({});
   const [matchStringList, setMatchStringList] = useState<string[]>([]);
-  // const [scores, setScores] = useState({});
+  const [scores, setScores] = useState<{[key: string]: { [team_name: string]: number}}>({});
   const { isModalOpen: isMultiplierModalOpen, closeModal: closeMultiplierModal, openModal: openMultiplierModal } = useModal();
   const { isModalOpen: isWzStringModalOpen, closeModal: closeWzStringModal, openModal: openWzStringModal } = useModal();
 
@@ -30,6 +30,28 @@ const Score = () => {
     }
     fetchData();
   }, [tournamentId]);
+
+  useEffect(() => {
+    if (games.length < 1) return
+    console.log(games)
+    const updatedScores = { ...scores }; // Create a copy of the scores object
+
+    games.forEach((game) => {
+      updatedScores[game.match_string] = {}
+
+      Object.entries(game).forEach((team) => {
+        if (team[0] === 'match_string') return
+
+        const teamScore = typeof team[1] === 'object' ? team[1]['score'] : 0
+        const placement = typeof team[1] === 'object' ? team[1]['placement'] : 0
+        const multiplier = multipliers[placement] || 1
+
+        updatedScores[game.match_string][team[0]] = Number(teamScore) * Number(multiplier)
+      })
+    })
+  
+    console.log(updatedScores)
+  }, [games, multipliers])
 
   const handleRemoveGame = (matchString: string) => {
     const updatedGames = games.filter((game) => game.match_string !== matchString)

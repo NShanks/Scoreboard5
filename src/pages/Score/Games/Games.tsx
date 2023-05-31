@@ -25,7 +25,7 @@ const Round = ({ numberOfPlayers, place, game, playerNames, multiplier = 1, setT
     <div className="justify-center flex">{game && playerNames ? String(game[playerNames[i]]) : 0}</div>
   ));
 
-  const gameScore = game ? Number(game['Score']) * multiplier : 0
+  const gameScore = game ? Number(game['score']) * multiplier : 0
   
   useEffect(() => {
     setTotalScore((prevScore) => prevScore + gameScore)
@@ -55,7 +55,7 @@ const Round = ({ numberOfPlayers, place, game, playerNames, multiplier = 1, setT
 )};
 
 const Games = ({ numberOfGames, numberOfPlayers, games, setTotalScore }: GamesProps) => {
-  const playerNames = (games.length > 0 ? Object.keys(games[0]).filter(name => name !== 'placement' && name !== 'Score') : [])
+  const playerNames = (games.length > 0 ? Object.keys(games[0]).filter(name => name !== 'placement' && name !== 'score') : [])
   const multipliers = useContext(MultiplierContext)
   const gameElements = Array.from({ length: numberOfGames }, (_, i) => {
     return (

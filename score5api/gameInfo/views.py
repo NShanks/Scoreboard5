@@ -1,13 +1,10 @@
-import json
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from gameInfo.models import Game, Stats, Player, Team
 from django.db import IntegrityError, transaction
 from collections import defaultdict
-from django.http import HttpRequest
 import requests
-from itertools import permutations
 
 @csrf_exempt
 @transaction.atomic
@@ -34,15 +31,12 @@ def create_game(warzone_match_string, game_data):
 
     for _, players in teams.items():
         existing_team = get_team_or_create(players)
-
         for player in players:
             stats, _ = Stats.objects.get_or_create(game=game, player=player, team=existing_team, kills=player_stats[str(player)]['kills'], place = player_stats[str(player)]['place'])
             stats.save()
 
 
     return JsonResponse({'message': 'Process succeeded'})
-
-
 
 def retrieve_game(request, warzone_game_id):
     if request.method == 'GET':
@@ -65,7 +59,7 @@ def retrieve_game(request, warzone_game_id):
             game = Game.objects.filter(warzone_match_string=warzone_game_id)
 
         game_instance = game.first()
-        
+
         teams = defaultdict(lambda: defaultdict(dict))
         teams['match_string'] = game_instance.warzone_match_string
 
@@ -75,9 +69,9 @@ def retrieve_game(request, warzone_game_id):
             teams[team_name]["placement"] = stat.place
             teams[team_name][player_name] = stat.kills
 
-            if 'Score' not in teams[team_name]:
-                teams[team_name]['Score'] = 0
-            teams[team_name]['Score'] += stat.kills
+            if 'score' not in teams[team_name]:
+                teams[team_name]['score'] = 0
+            teams[team_name]['score'] += stat.kills
 
         return JsonResponse({'message': 'Game retrieved', 'teams': teams})
 
@@ -92,9 +86,10 @@ def get_team_or_create(players):
 
     max_overlap = 0
     best_team = None
+    player_ids = set(player.id for player in players)
     for team in team_qs:
         team_players_ids = set(team.players.values_list('id', flat=True))
-        overlap = len(team_players_ids & set(players))
+        overlap = len(team_players_ids & player_ids)
         if overlap > max_overlap:
             max_overlap = overlap
             best_team = team
