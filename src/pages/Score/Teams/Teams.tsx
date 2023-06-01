@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import Games from "pages/Score/Games";
 import { Game, TeamData } from "types";
 import { combineGames } from './utils'
+import { ScoreContext } from 'pages/Score/Score';
 
 
 interface TeamProps {
@@ -9,6 +10,8 @@ interface TeamProps {
   numberOfGames: number;
   numberOfPlayers: number;
   teamGames: TeamData[];
+  teamName?: string
+  scores?: {[key: string]: { [team_name: string]: number}}
 }
 
 interface TeamsProps {
@@ -23,10 +26,16 @@ const Team = ({
   numberOfGames,
   numberOfPlayers,
   teamGames,
+  teamName,
+  scores
 }: TeamProps) => {
-  const [totalScore, setTotalScore] = useState(0)
+  let totalScore = 0
 
-  // useEffect(() => setTotalScore(0), [teamGames])
+  if (scores && teamName) {
+    Object.entries(scores).forEach((score) => {
+      totalScore += score[1][teamName]
+    })
+  }
 
   return (
     <div className="flex flex-col pl-5 border-2 mb-2 p-2 mx-8 border-gray-500 rounded">
@@ -42,7 +51,6 @@ const Team = ({
         numberOfGames={numberOfGames}
         numberOfPlayers={numberOfPlayers}
         games={teamGames}
-        setTotalScore={setTotalScore}
       />
     </div>
   );
@@ -57,10 +65,11 @@ const Teams = ({
 
   const { match_string, ...teams } = games[0] || {}; 
   const teamNames = Object.keys(teams)
+  const scores = useContext(ScoreContext)
 
   if (games.length > 0) {
     const teamElements = teamNames.map((teamName, i) => {
-      const teamGames = combineGames(games, teamName)
+      const teamGames = combineGames(games, teamName, scores)
 
       return (
         <Team
@@ -69,6 +78,8 @@ const Teams = ({
         numberOfGames={numberOfGames}
         numberOfPlayers={numberOfPlayers}
         teamGames={teamGames}
+        teamName={teamName}
+        scores={scores}
       />
       )
     })

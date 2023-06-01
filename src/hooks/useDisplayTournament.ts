@@ -7,7 +7,6 @@ const getTournamentData = async (matchStringId: string) => {
     })
 
     if (!response.ok) {
-      console.log('did not make it')
       throw new Error("Error fetching data");
     }
 

@@ -7,7 +7,7 @@ import MultiplierModal from "Components/MultiplierModal";
 import useModal from 'hooks/useModal'
 import WzStringModal from "Components/WzStringModal/WzStringModal";
 
-export const MultiplierContext = createContext<{[key: string]: string;}>({});
+export const ScoreContext = createContext<{[key: string]: { [team_name: string]: number}}>({});
 
 const Score = () => {
   const location = useLocation();
@@ -33,8 +33,8 @@ const Score = () => {
 
   useEffect(() => {
     if (games.length < 1) return
-    console.log(games)
-    const updatedScores = { ...scores }; // Create a copy of the scores object
+
+    const updatedScores = { ...scores };
 
     games.forEach((game) => {
       updatedScores[game.match_string] = {}
@@ -49,19 +49,23 @@ const Score = () => {
         updatedScores[game.match_string][team[0]] = Number(teamScore) * Number(multiplier)
       })
     })
-  
-    console.log(updatedScores)
+
+    setScores(updatedScores)
   }, [games, multipliers])
 
   const handleRemoveGame = (matchString: string) => {
     const updatedGames = games.filter((game) => game.match_string !== matchString)
+    const updatedScores = { ...scores }
+    delete updatedScores[matchString]
+
     setGames(updatedGames)
+    setScores(updatedScores)
   }
 
   const numberOfTeams = games.length > 0 ? Object.keys(games[0]).length : sheetData.teams
 
   return (
-    <MultiplierContext.Provider value={multipliers}>
+    <ScoreContext.Provider value={scores}>
       <div>
         <div className="flex flex-row justify-center mb-4">
           <div className="flex flex-row gap-8">
@@ -84,7 +88,7 @@ const Score = () => {
           games={games}
         />
       </div>
-    </MultiplierContext.Provider>
+    </ScoreContext.Provider>
   );
 };
 
